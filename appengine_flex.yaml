@@ -1,0 +1,21 @@
+runtime: python38 # or another supported version
+entrypoint: gunicorn -b :$PORT main:app --timeout 1800 --workers 8
+service: gcp_class2
+env: flex
+instance_class: B4_1G
+
+# env_variables:
+#   BUCKET_NAME: "example-gcs-bucket"
+manual_scaling:
+  max_instances: 5
+
+
+handlers:
+# Matches requests to /images/... to files in static/images/...
+
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
+  script: auto
+env_variables:
+  PROJECT_ID: "gcp_class_2"
